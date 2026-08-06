@@ -1,7 +1,7 @@
 ---
 name: my-aivid-prompt
 description: Use when 已确认的视频脚本、广告方案、分镜或镜头清单需要转化为可直接执行的 AI 视频提示词，尤其涉及可灵、Veo、Sora、Seedance、Higgsfield、人物一致性、参考图映射、Talking Head、低抽卡率、低成本或多镜头连续性时。
-version: 1.1.0
+version: 1.2.0
 ---
 
 # AI 视频提示词生成
@@ -143,6 +143,16 @@ version: 1.1.0
 
 禁止只写“使用附上的参考图”。必须写明每张图的控制职责。
 
+每个镜头还必须在 Prompt 前给出不可推断的执行绑定清单：
+
+```text
+Elements: [按最终顺序列出准确文件或图片]
+Frames: [按最终顺序列出准确文件或图片；没有则写 none]
+Prompt image order: Image 1 = ...；Image 2 = ...
+```
+
+“人物图、车辆图、场景图、首帧图”等语义不自动决定 Elements 或 Frames。UI bucket 必须由已批准的镜头设计明确指定；若用户说两张都放 Elements，就必须原样写入清单，不得把场景图自行改放 Frames。这个清单必须随最终 Prompt 一并交给 `my-higgs-vid`。
+
 ### 可直接提交的参考图语法
 
 最终可直接提交给 Higgsfield、可灵或 Seedance 的 Prompt，必须按照实际上传顺序显式引用参考图：
@@ -215,7 +225,7 @@ version: 1.1.0
 2. 广告作用
 3. 推荐生成模式
 4. 时长与画幅
-5. 所需参考图及用途
+5. 所需参考图、Elements／Frames 角色、上传顺序、`Image N` 编号及用途
 6. 起始构图
 7. 主体与环境
 8. 唯一主要动作
@@ -321,7 +331,7 @@ Prompt 包完成后不得自动开始生成。最后一句固定询问：
 
 > 提示词已完成。是否继续运行 `my-higgs-vid`，按上述参考图顺序和参数生成视频？
 
-如果当前页面已显示单镜 credits 或总预计消耗，必须把预计消耗写进这句询问。用户确认后，才把已批准的逐镜 Prompt、参考图顺序、模型参数、声音要求和成本上限交给 `my-higgs-vid`；确认只授权本轮已说明的生成，不包含自动重抽、购买 credits 或升级套餐。
+如果当前页面已显示单镜 credits 或总预计消耗，必须把预计消耗写进这句询问。用户确认后，才把已批准的逐镜 Prompt、每镜 Elements／Frames 清单、参考图顺序、`Image N` 编号、模型参数、声音要求和成本上限交给 `my-higgs-vid`；确认只授权本轮已说明的生成，不包含自动重抽、购买 credits 或升级套餐。
 
 ## 完成前检查
 
